@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction } from 'react';
 import { ChangeEvent } from 'react';
 
 function App() {
@@ -7,16 +7,10 @@ function App() {
   const [expenses, setExpenses] = useState(Number(localStorage.getItem('expenses')) || 0.0);
   const [limitDate, setLimitDate] = useState(localStorage.getItem('limitDate') || new Date().toISOString().split('T')[0]);
 
-  const handleBudgetChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleValueChange = (e: ChangeEvent<HTMLInputElement>, setValue: Dispatch<SetStateAction<number>>) => {
     const value = e.target.value;
     const numericValue = parseFloat(value.replace(/\D/g, '') || '0') / 100;
-    setBudget(numericValue);
-  }
-
-  const handleExpensesChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const numericValue = parseFloat(value.replace(/\D/g, '') || '0') / 100;
-    setExpenses(numericValue);
+    setValue(numericValue);
   }
 
   const handleLimitDateChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,6 +36,8 @@ function App() {
     localStorage.setItem('limitDate', limitDate);
   }, [budget, expenses, limitDate]);
 
+  const remainingDaysValue = remainingDays();
+
   return (
     <>
       <div className="App">
@@ -52,7 +48,7 @@ function App() {
             id="budget"
             placeholder="Apenas números"
             value={`R$${budget.toFixed(2)}`}
-            onChange={handleBudgetChange}
+            onChange={(e) => handleValueChange(e, setBudget)}
           />
         </div>
         <div className="input-field">
@@ -62,7 +58,7 @@ function App() {
             id="expenses"
             placeholder="Apenas números"
             value={`R$${expenses.toFixed(2)}`}
-            onChange={handleExpensesChange}
+            onChange={(e) => handleValueChange(e, setExpenses)}
           />
         </div>
         <div className='input-field'>
@@ -75,9 +71,9 @@ function App() {
           />
         </div>
         <div className="result">
-          <p>Resta(m) <b>{remainingDays()}</b> dia(s)</p>
+          <p>Resta(m) <b>{remainingDaysValue}</b> dia(s)</p>
           <p>Valor restante: <b>R${(budget - expenses).toFixed(2)}</b></p>
-          <p>Devo gastar em média: <b>R${((budget - expenses) / (remainingDays() > 0 ? remainingDays() : 1)).toFixed(2)}</b> /dia</p>
+          <p>Devo gastar em média: <b>R${((budget - expenses) / (remainingDaysValue > 0 ? remainingDaysValue : 1)).toFixed(2)}</b> /dia</p>
         </div>
       </div>
     </>
