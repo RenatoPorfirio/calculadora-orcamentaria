@@ -3,8 +3,11 @@ import { useState, useEffect } from 'react';
 import { ChangeEvent } from 'react';
 
 function App() {
-  const [budget, setBudget] = useState(Number(localStorage.getItem('budget')) || 0.0);
-  const [expenses, setExpenses] = useState(Number(localStorage.getItem('expenses')) || 0.0);
+  const numberBudget = Number(localStorage.getItem('budget'));
+  const numberExpenses = Number(localStorage.getItem('expenses'));
+
+  const [budget, setBudget] = useState(!isNaN(numberBudget) ? numberBudget : 0.0);
+  const [expenses, setExpenses] = useState(!isNaN(numberExpenses) ? numberExpenses : 0.0);
   const [limitDate, setLimitDate] = useState(localStorage.getItem('limitDate') || new Date().toISOString().split('T')[0]);
 
   const handleBudgetChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +27,7 @@ function App() {
     setLimitDate(value.split('T')[0]);
   }
 
-  const diasRestantes = () => {
+  const remainingDays = () => {
     const limit = new Date(limitDate);
     const today = new Date();
     const diff = limit.getTime() - today.getTime();
@@ -70,9 +73,9 @@ function App() {
           />
         </div>
         <div className="result">
-        <h2>Restam {diasRestantes()} dias</h2>
+        <h2>Restam {remainingDays()} dias</h2>
           <h2>Valor restante: R${(budget - expenses).toFixed(2)}</h2>
-          <h2>Devo gastar em média: R${((budget - expenses) / diasRestantes()).toFixed(2)} /dia</h2>
+          <h2>Devo gastar em média: R${((budget - expenses) / remainingDays()).toFixed(2)} /dia</h2>
         </div>
       </div>
     </>
