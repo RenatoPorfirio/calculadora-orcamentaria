@@ -66,7 +66,7 @@ function App() {
           />
         </div>
         <div className='input-field'>
-          <label htmlFor="limitDate">Data Limite</label>
+          <label htmlFor="limitDate">Data limite</label>
           <input
             type="date"
             id="limitDate"
@@ -75,9 +75,9 @@ function App() {
           />
         </div>
         <div className="result">
-        <h2>Restam {remainingDays()} dias</h2>
-          <h2>Valor restante: R${(budget - expenses).toFixed(2)}</h2>
-          <h2>Devo gastar em média: R${((budget - expenses) / (remainingDays() > 0 ? remainingDays() : 1)).toFixed(2)} /dia</h2>
+          <p>Resta(m) <b>{remainingDays()}</b> dia(s)</p>
+          <p>Valor restante: <b>R${(budget - expenses).toFixed(2)}</b></p>
+          <p>Devo gastar em média: <b>R${((budget - expenses) / (remainingDays() > 0 ? remainingDays() : 1)).toFixed(2)}</b> /dia</p>
         </div>
       </div>
     </>
