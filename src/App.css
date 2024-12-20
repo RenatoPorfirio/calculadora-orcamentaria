@@ -33,8 +33,13 @@
   width: 8rem;
 }
 
+.input-field input:hover,
 .input-field input:focus {
   border-color: #00bb00;
+}
+
+.input-field input:hover {
+  padding: 0.55rem;
 }
 
 .result {
