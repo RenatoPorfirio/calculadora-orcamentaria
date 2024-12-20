@@ -34,6 +34,10 @@ function App() {
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
   }
 
+  const remainingBudget = () => {
+    return budget - expenses;
+  }
+
   useEffect(() => {
     localStorage.setItem('budget', budget.toString());
     localStorage.setItem('expenses', expenses.toString());
@@ -74,8 +78,8 @@ function App() {
         </div>
         <div className="result">
         <h2>Restam {remainingDays()} dias</h2>
-          <h2>Valor restante: R${(budget - expenses).toFixed(2)}</h2>
-          <h2>Devo gastar em média: R${((budget - expenses) / remainingDays()).toFixed(2)} /dia</h2>
+          <h2>Valor restante: R${remainingBudget().toFixed(2)}</h2>
+          <h2>Devo gastar em média: R${(remainingBudget() / remainingDays()).toFixed(2)} /dia</h2>
         </div>
       </div>
     </>
