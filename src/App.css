@@ -1,0 +1,20 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  padding: 4rem 1rem;
+  background-color: #282c34;
+}
+
+.input-field {
+  display: flex;
+  width: 17rem;
+  justify-content: space-between;
+}
