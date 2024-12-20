@@ -16,7 +16,9 @@
 
 .input-field {
   display: flex;
-  width: 17rem;
+  width: 20rem;
+  gap: 1rem;
+  text-wrap: nowrap;
   justify-content: space-between;
   color: #00bb00;
   margin-bottom: 0.5rem;
@@ -28,6 +30,7 @@
   border-radius: 0.25rem;
   color: #00bb00;
   outline: none;
+  width: 100%;
 }
 
 .input-field input:focus {
