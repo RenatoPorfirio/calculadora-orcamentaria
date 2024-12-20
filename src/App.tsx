@@ -3,11 +3,8 @@ import { useState, useEffect } from 'react';
 import { ChangeEvent } from 'react';
 
 function App() {
-  const numberBudget = Number(localStorage.getItem('budget'));
-  const numberExpenses = Number(localStorage.getItem('expenses'));
-
-  const [budget, setBudget] = useState(!isNaN(numberBudget) ? numberBudget : 0.0);
-  const [expenses, setExpenses] = useState(!isNaN(numberExpenses) ? numberExpenses : 0.0);
+  const [budget, setBudget] = useState(Number(localStorage.getItem('budget')) || 0.0);
+  const [expenses, setExpenses] = useState(Number(localStorage.getItem('expenses')) || 0.0);
   const [limitDate, setLimitDate] = useState(localStorage.getItem('limitDate') || new Date().toISOString().split('T')[0]);
 
   const handleBudgetChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,6 +21,11 @@ function App() {
 
   const handleLimitDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
+    const date = new Date(value);
+    if (date < new Date()) {
+      alert('Data limite não pode ser no passado');
+      return;
+    }
     setLimitDate(value.split('T')[0]);
   }
 
@@ -32,10 +34,6 @@ function App() {
     const today = new Date();
     const diff = limit.getTime() - today.getTime();
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
-  }
-
-  const remainingBudget = () => {
-    return budget - expenses;
   }
 
   useEffect(() => {
@@ -78,8 +76,8 @@ function App() {
         </div>
         <div className="result">
         <h2>Restam {remainingDays()} dias</h2>
-          <h2>Valor restante: R${remainingBudget().toFixed(2)}</h2>
-          <h2>Devo gastar em média: R${(remainingBudget() / remainingDays()).toFixed(2)} /dia</h2>
+          <h2>Valor restante: R${(budget - expenses).toFixed(2)}</h2>
+          <h2>Devo gastar em média: R${((budget - expenses) / (remainingDays() > 0 ? remainingDays() : 1)).toFixed(2)} /dia</h2>
         </div>
       </div>
     </>
